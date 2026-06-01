@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart — FreshMart</title>
+  <meta name="description" content="Review your cart and checkout securely on FreshMart. Fast delivery, secure payment options.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/cart.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>">
+</head>
+<body>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">🛒</div>
+      <span>FreshMart</span>
+    </a>
+    <div class="nav-search">
+      <span class="search-icon">🔍</span>
+      <input type="search" placeholder="Search products..." onkeypress="if(event.key==='Enter'){window.location.href='index.html'}">
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link"><span>🏠</span><span>Home</span></a>
+      <a href="orders.html" class="nav-link"><span>📦</span><span>Orders</span></a>
+      <a href="support.html" class="nav-link"><span>💬</span><span>Support</span></a>
+      <a href="cart.html" class="nav-link active" style="position:relative">
+        <span>🛒</span><span>Cart</span>
+        <span class="cart-badge" style="display:none">0</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- CART PAGE -->
+<div class="cart-page">
+  <div class="cart-inner">
+    <h1 class="cart-page-title">🛒 Shopping Cart</h1>
+    <p class="cart-page-subtitle">Review your items before placing an order</p>
+
+    <!-- EMPTY STATE -->
+    <div id="cartEmpty" style="display:none">
+      <div class="empty-state">
+        <div class="empty-icon">🛒</div>
+        <h3>Your cart is empty</h3>
+        <p>Looks like you haven't added anything yet. Start shopping!</p>
+        <a href="index.html" class="btn btn-primary btn-lg" style="margin-top:2rem">🛍️ Browse Products</a>
+      </div>
+    </div>
+
+    <!-- ORDER SUCCESS -->
+    <div id="orderSuccess" style="display:none">
+      <div class="empty-state" style="padding:5rem 2rem">
+        <div class="empty-icon" style="font-size:6rem;opacity:1">🎉</div>
+        <h3 style="font-size:2rem;margin-bottom:1rem">Order Placed Successfully!</h3>
+        <p style="font-size:1rem">Your Order ID: <strong id="successOrderId" style="color:var(--accent-purple-light)"></strong></p>
+        <p style="color:var(--text-muted);margin-top:0.5rem">You'll receive a confirmation shortly. Track your order below.</p>
+        <div style="display:flex;gap:1rem;justify-content:center;margin-top:2rem;flex-wrap:wrap">
+          <a href="orders.html" class="btn btn-primary btn-lg">📦 Track Order</a>
+          <a href="index.html" class="btn btn-secondary btn-lg">🛍️ Continue Shopping</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CART LAYOUT -->
+    <div class="cart-layout" id="cartWrap">
+
+      <!-- LEFT: ITEMS -->
+      <div class="cart-items-wrap">
+        <div class="cart-items-header">
+          <span id="itemCount">0 items</span>
+          <button class="btn btn-danger btn-sm" id="clearCartBtn">🗑️ Clear Cart</button>
+        </div>
+        <div id="cartItems"></div>
+        <a href="index.html" class="btn btn-secondary" style="margin-top:1rem;width:100%;justify-content:center">← Continue Shopping</a>
+      </div>
+
+      <!-- RIGHT: ORDER SUMMARY -->
+      <div class="order-summary">
+        <h3>📋 Order Summary</h3>
+
+        <div class="summary-row">
+          <span class="label">Subtotal</span>
+          <span class="value" id="subtotalAmt">₹0</span>
+        </div>
+        <div class="summary-row discount" id="discountRow" style="display:none">
+          <span class="label">🎟️ Discount</span>
+          <span class="value" id="discountAmt" style="color:var(--success)"></span>
+        </div>
+        <div class="summary-row">
+          <span class="label">🚚 Delivery</span>
+          <span class="value" id="deliveryAmt">FREE</span>
+        </div>
+
+        <hr class="divider">
+
+        <!-- COUPON -->
+        <div class="coupon-row">
+          <input type="text" class="form-control" id="couponInput" placeholder="Coupon code (try FRESH10)">
+          <button class="btn btn-outline" id="applyCouponBtn">Apply</button>
+        </div>
+
+        <!-- DELIVERY OPTIONS -->
+        <div class="delivery-options">
+          <h4>Choose Delivery:</h4>
+          <div class="delivery-option selected" data-delivery="standard">
+            <input type="radio" name="delivery" checked>
+            <div class="delivery-option-info">
+              <div class="delivery-option-name">🚚 Standard</div>
+              <div class="delivery-option-desc">2–3 business days</div>
+            </div>
+            <span class="delivery-option-price">FREE</span>
+          </div>
+          <div class="delivery-option" data-delivery="express">
+            <input type="radio" name="delivery">
+            <div class="delivery-option-info">
+              <div class="delivery-option-name">⚡ Express</div>
+              <div class="delivery-option-desc">Same day by 8 PM</div>
+            </div>
+            <span class="delivery-option-price">₹49</span>
+          </div>
+          <div class="delivery-option" data-delivery="midnight">
+            <input type="radio" name="delivery">
+            <div class="delivery-option-info">
+              <div class="delivery-option-name">🌙 Midnight</div>
+              <div class="delivery-option-desc">Tonight by midnight</div>
+            </div>
+            <span class="delivery-option-price">₹99</span>
+          </div>
+        </div>
+
+        <hr class="divider">
+
+        <div class="summary-row total">
+          <span class="label">Total</span>
+          <span class="value" id="totalAmt">₹0</span>
+        </div>
+
+        <button class="btn btn-success btn-lg btn-full" id="checkoutBtn" style="margin-top:1.25rem">
+          🔒 Proceed to Checkout
+        </button>
+
+        <div class="secure-badge">🔒 Secured by 256-bit SSL encryption</div>
+
+        <div style="display:flex;justify-content:center;gap:0.75rem;margin-top:1rem;font-size:1.5rem">
+          <span title="UPI">📱</span>
+          <span title="Visa">💳</span>
+          <span title="Mastercard">💳</span>
+          <span title="Net Banking">🏦</span>
+          <span title="Cash on Delivery">💵</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal-overlay" id="checkoutModal">
+  <div class="modal" style="max-width:580px">
+    <div class="modal-header">
+      <h3>🛍️ Secure Checkout</h3>
+      <button class="modal-close" id="checkoutModalClose">✕</button>
+    </div>
+
+    <!-- STEPS -->
+    <div class="checkout-steps">
+      <div class="checkout-step active">
+        <span class="step-num">1</span><span>Address</span>
+      </div>
+      <div class="checkout-step">
+        <span class="step-num">2</span><span>Payment</span>
+      </div>
+      <div class="checkout-step">
+        <span class="step-num">3</span><span>Confirm</span>
+      </div>
+    </div>
+
+    <!-- STEP 1: ADDRESS -->
+    <div class="checkout-form-step active" id="step1">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">First Name *</label>
+          <input type="text" class="form-control" placeholder="Rahul" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Name</label>
+          <input type="text" class="form-control" placeholder="Sharma">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Phone Number *</label>
+        <input type="tel" class="form-control" placeholder="+91 98765 43210" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Delivery Address *</label>
+        <textarea class="form-control" id="deliveryAddress" placeholder="House no, street, landmark..." rows="3" required></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">City</label>
+          <input type="text" class="form-control" placeholder="Bengaluru">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Pincode</label>
+          <input type="text" class="form-control" placeholder="560001" maxlength="6">
+        </div>
+      </div>
+      <button class="btn btn-primary btn-full" id="nextStep1">Continue to Payment →</button>
+    </div>
+
+    <!-- STEP 2: PAYMENT -->
+    <div class="checkout-form-step" id="step2">
+      <div class="payment-options">
+        <div class="payment-option selected" data-payment="upi">
+          <span class="pay-icon">📱</span> UPI
+        </div>
+        <div class="payment-option" data-payment="card">
+          <span class="pay-icon">💳</span> Card
+        </div>
+        <div class="payment-option" data-payment="netbanking">
+          <span class="pay-icon">🏦</span> Net Banking
+        </div>
+        <div class="payment-option" data-payment="cod">
+          <span class="pay-icon">💵</span> Cash on Delivery
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">UPI ID</label>
+        <input type="text" class="form-control" placeholder="yourname@upi">
+      </div>
+
+      <div style="display:flex;gap:0.75rem;margin-top:1rem">
+        <button class="btn btn-secondary" id="prevStep2">← Back</button>
+        <button class="btn btn-primary" style="flex:1" id="nextStep2">Review Order →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: CONFIRM -->
+    <div class="checkout-form-step" id="step3">
+      <div style="background:var(--glass);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1.25rem;margin-bottom:1.25rem">
+        <h4 style="margin-bottom:1rem;font-size:0.9rem;color:var(--text-secondary)">📦 ORDER SUMMARY</h4>
+        <div id="confirmItems"></div>
+      </div>
+
+      <div style="display:flex;gap:0.75rem;margin-top:1rem">
+        <button class="btn btn-secondary" id="prevStep3">← Back</button>
+        <button class="btn btn-success" style="flex:1" id="placeOrderBtn">✅ Place Order</button>
+      </div>
+
+      <div class="secure-badge" style="margin-top:0.75rem">🔒 Your payment info is encrypted and secure</div>
+    </div>
+  </div>
+</div>
+
+<!-- FLOATING SUPPORT -->
+<button class="support-fab" id="supportFab" title="Chat with us">💬</button>
+<div class="support-chat-popup" id="supportPopup">
+  <div class="chat-header">
+    <div class="chat-header-info">
+      <div class="chat-avatar">🤖</div>
+      <div><h4>FreshMart Support</h4><p>🟢 Online</p></div>
+    </div>
+    <button class="chat-close-btn" id="chatCloseBtn">✕</button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-msg bot"><div class="chat-bubble">👋 Need help with your cart or checkout? I'm here!</div></div>
+  </div>
+  <div class="chat-input-area">
+    <input type="text" class="chat-input" id="chatInput" placeholder="Type a message...">
+    <button class="chat-send-btn" id="chatSendBtn">➤</button>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/cart.js"></script>
+<script>
+// Populate confirm step
+document.getElementById('placeOrderBtn').addEventListener('click', () => {}, {once:false});
+document.getElementById('nextStep2').addEventListener('click', () => {
+  const confirmDiv = document.getElementById('confirmItems');
+  const cart = Cart.get();
+  const total = Cart.getTotal();
+  confirmDiv.innerHTML = cart.map(i => `
+    <div style="display:flex;justify-content:space-between;font-size:0.85rem;padding:0.4rem 0;border-bottom:1px solid var(--border)">
+      <span>${i.name} × ${i.qty}</span>
+      <strong>₹${(i.price * i.qty).toLocaleString('en-IN')}</strong>
+    </div>
+  `).join('') + `<div style="display:flex;justify-content:space-between;font-size:1rem;font-weight:800;padding:0.75rem 0 0;color:var(--accent-purple-light)"><span>Total</span><span>₹${total.toLocaleString('en-IN')}</span></div>`;
+});
+</script>
+</body>
+</html>

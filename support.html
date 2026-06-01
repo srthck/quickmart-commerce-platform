@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Support — FreshMart</title>
+  <meta name="description" content="Get help with orders, returns, payments and more. FreshMart customer support is available 7 days a week.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>">
+  <style>
+    .support-page { padding: 2.5rem 2rem; position: relative; z-index: 1; }
+    .support-inner { max-width: 1100px; margin: 0 auto; }
+
+    .support-hero {
+      text-align: center;
+      padding: 3rem 2rem 2rem;
+      margin-bottom: 3rem;
+    }
+    .support-hero h1 { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .support-hero p { color: var(--text-secondary); font-size: 1.05rem; max-width: 500px; margin: 0 auto; }
+
+    .support-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .support-card {
+      padding: 2rem 1.5rem;
+      text-align: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: var(--transition);
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .support-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(124,58,237,0.4);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      background: var(--bg-card-hover);
+    }
+
+    .support-card .sc-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .support-card h3 { font-size: 1rem; margin-bottom: 0.4rem; }
+    .support-card p { font-size: 0.82rem; color: var(--text-muted); }
+
+    /* FAQ */
+    .faq-section { margin-bottom: 3.5rem; }
+    .faq-section h2 { font-size: 1.6rem; margin-bottom: 1.75rem; }
+
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 0.75rem;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .faq-item:hover { border-color: rgba(124,58,237,0.3); }
+    .faq-item.open { border-color: rgba(124,58,237,0.4); }
+
+    .faq-question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 1.5rem;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      user-select: none;
+      gap: 1rem;
+    }
+
+    .faq-icon {
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+      color: var(--accent-purple-light);
+    }
+
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+      padding: 0 1.5rem;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .faq-item.open .faq-answer { max-height: 300px; padding: 0 1.5rem 1.25rem; }
+
+    /* CONTACT FORM */
+    .contact-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .contact-info h2 { font-size: 1.6rem; margin-bottom: 1.25rem; }
+    .contact-info p { color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.7; }
+
+    .contact-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      padding: 1rem;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+
+    .contact-detail .cd-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .contact-detail h4 { font-size: 0.875rem; font-weight: 600; margin-bottom: 3px; }
+    .contact-detail p { font-size: 0.82rem; color: var(--text-muted); margin: 0; }
+
+    .contact-form-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+    }
+
+    .contact-form-wrap h2 { font-size: 1.4rem; margin-bottom: 1.5rem; }
+
+    /* HOURS */
+    .hours-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .hours-card {
+      padding: 1.25rem;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      text-align: center;
+    }
+
+    .hours-card .day { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .hours-card .time { font-size: 1rem; font-weight: 700; color: var(--accent-purple-light); }
+
+    @media (max-width: 768px) {
+      .contact-section { grid-template-columns: 1fr; }
+      .hours-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">🛒</div>
+      <span>FreshMart</span>
+    </a>
+    <div class="nav-search">
+      <span class="search-icon">🔍</span>
+      <input type="search" placeholder="Search products..." onkeypress="if(event.key==='Enter'){window.location.href='index.html'}">
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link"><span>🏠</span><span>Home</span></a>
+      <a href="orders.html" class="nav-link"><span>📦</span><span>Orders</span></a>
+      <a href="support.html" class="nav-link active"><span>💬</span><span>Support</span></a>
+      <a href="cart.html" class="nav-link" style="position:relative">
+        <span>🛒</span><span>Cart</span>
+        <span class="cart-badge" style="display:none">0</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- SUPPORT PAGE -->
+<div class="support-page">
+  <div class="support-inner">
+
+    <!-- HERO -->
+    <div class="support-hero">
+      <h1>💬 How Can We <span class="gradient-text">Help You?</span></h1>
+      <p>Our friendly support team is available 7 days a week to assist you with any questions or concerns.</p>
+    </div>
+
+    <!-- QUICK SUPPORT CARDS -->
+    <div class="support-cards">
+      <a href="orders.html" class="support-card">
+        <div class="sc-icon">📦</div>
+        <h3>Track Order</h3>
+        <p>Check real-time status of your deliveries</p>
+      </a>
+      <div class="support-card" onclick="document.getElementById('supportFab').click()">
+        <div class="sc-icon">💬</div>
+        <h3>Live Chat</h3>
+        <p>Chat with our bot for instant answers</p>
+      </div>
+      <a href="mailto:support@freshmart.in" class="support-card">
+        <div class="sc-icon">✉️</div>
+        <h3>Email Us</h3>
+        <p>support@freshmart.in</p>
+      </a>
+      <a href="tel:+911800000000" class="support-card">
+        <div class="sc-icon">📞</div>
+        <h3>Call Us</h3>
+        <p>1800-FRESHMART (9 AM – 9 PM)</p>
+      </a>
+    </div>
+
+    <!-- FAQ SECTION -->
+    <div class="faq-section" id="faq">
+      <h2>❓ Frequently Asked Questions</h2>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          How do I track my order?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          You can track your order by visiting the <a href="orders.html" style="color:var(--accent-purple-light)">Orders page</a> and entering your Order ID. You'll see a real-time timeline showing where your order is — from placement to delivery right at your door.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          What is your return policy?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          We offer a hassle-free 7-day return policy for all products. If you receive a damaged or incorrect item, simply contact our support team and we'll arrange a pickup and full refund within 3–5 business days. No questions asked for fresh produce that doesn't meet quality standards.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          What payment methods do you accept?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          We accept UPI (Google Pay, PhonePe, BHIM, Paytm), Credit and Debit Cards (Visa, Mastercard, RuPay), Net Banking, and Cash on Delivery (COD) for orders below ₹2,000. All online payments are secured with 256-bit SSL encryption.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          How long does delivery take?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          Standard delivery takes 2–3 business days. Express delivery is available same day for orders placed before 6 PM (delivered by 8 PM). Midnight delivery is also available for orders placed before 9 PM. Delivery charges vary by option — standard delivery is FREE on all orders!
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Can I cancel or modify my order?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          Orders can be cancelled or modified within 1 hour of placement. After that, the order enters processing and cannot be changed. To cancel, go to the Orders page, select your order, and click "Cancel Order". Refunds are processed within 5–7 business days.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Are your products really fresh and organic?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          Yes! All our fresh produce is sourced directly from local farms and delivered within 24 hours of harvest. Our organic products are certified and free from artificial pesticides. We have strict quality checks — if any product doesn't meet our freshness standards, we replace it for free.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Do you offer subscription or bulk orders?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          Yes! We offer weekly and monthly subscription boxes for vegetables, fruits, dairy and bakery items at a 15% discount. For bulk orders above ₹5,000, contact us directly at bulk@freshmart.in for special pricing and dedicated account support.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          What coupon codes are available?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          Current active coupons: <strong style="color:var(--accent-purple-light)">FRESH10</strong> (10% off), <strong style="color:var(--accent-cyan)">SAVE50</strong> (₹50 flat off), <strong style="color:var(--accent-gold)">NEWUSER</strong> (15% off for new users). Enter these at checkout in the coupon field!
+        </div>
+      </div>
+    </div>
+
+    <!-- STORE HOURS -->
+    <h2 style="margin-bottom:1.25rem">🕐 Store Hours</h2>
+    <div class="hours-grid">
+      <div class="hours-card"><div class="day">Monday–Friday</div><div class="time">7:00 AM – 10:00 PM</div></div>
+      <div class="hours-card"><div class="day">Saturday</div><div class="time">7:00 AM – 11:00 PM</div></div>
+      <div class="hours-card"><div class="day">Sunday</div><div class="time">8:00 AM – 9:00 PM</div></div>
+    </div>
+
+    <!-- CONTACT SECTION -->
+    <div class="contact-section" style="margin-top:1rem">
+      <div class="contact-info">
+        <h2>📞 Get In Touch</h2>
+        <p>Can't find what you're looking for in the FAQ? Our friendly team is just a message away. We typically respond within 2 hours during business hours.</p>
+
+        <div class="contact-detail">
+          <span class="cd-icon">📞</span>
+          <div>
+            <h4>Phone Support</h4>
+            <p>1800-FRESHMART (Toll-free) • 9 AM – 9 PM daily</p>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <span class="cd-icon">✉️</span>
+          <div>
+            <h4>Email Support</h4>
+            <p>support@freshmart.in • Replies within 2 hours</p>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <span class="cd-icon">📍</span>
+          <div>
+            <h4>Store Address</h4>
+            <p>42, MG Road, Near Brigade Road Junction, Bengaluru – 560001</p>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <span class="cd-icon">💬</span>
+          <div>
+            <h4>Live Chat</h4>
+            <p>Click the chat bubble (bottom-right) for instant bot support</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTACT FORM -->
+      <div class="contact-form-wrap">
+        <h2>📝 Send Us a Message</h2>
+        <form id="contactForm">
+          <div class="form-group">
+            <label class="form-label">Your Name *</label>
+            <input type="text" class="form-control" id="contactName" placeholder="Your full name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address *</label>
+            <input type="email" class="form-control" id="contactEmail" placeholder="you@example.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Order ID (optional)</label>
+            <input type="text" class="form-control" id="contactOrderId" placeholder="e.g. ORD-2024-7821">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Issue Category</label>
+            <select class="form-control" id="contactCategory">
+              <option value="">Select a category</option>
+              <option>Order not delivered</option>
+              <option>Wrong item received</option>
+              <option>Payment issue</option>
+              <option>Refund request</option>
+              <option>Product quality</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Message *</label>
+            <textarea class="form-control" id="contactMessage" placeholder="Describe your issue in detail..." rows="4" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">📤 Send Message</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-bottom" style="border-top:none;padding-top:0">
+      <span>© 2026 FreshMart. All rights reserved.</span>
+      <span>Made with ❤️ for local communities</span>
+    </div>
+  </div>
+</footer>
+
+<!-- FLOATING SUPPORT -->
+<button class="support-fab" id="supportFab" title="Chat with us">💬</button>
+<div class="support-chat-popup" id="supportPopup">
+  <div class="chat-header">
+    <div class="chat-header-info">
+      <div class="chat-avatar">🤖</div>
+      <div><h4>FreshMart Support</h4><p>🟢 Online • Replies instantly</p></div>
+    </div>
+    <button class="chat-close-btn" id="chatCloseBtn">✕</button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-msg bot"><div class="chat-bubble">👋 Hi! I'm here to help! Ask me about your order, returns, delivery, or anything else!</div></div>
+  </div>
+  <div class="chat-input-area">
+    <input type="text" class="chat-input" id="chatInput" placeholder="Type a message...">
+    <button class="chat-send-btn" id="chatSendBtn">➤</button>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+function toggleFaq(questionEl) {
+  const item = questionEl.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+document.getElementById('contactForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const name = document.getElementById('contactName').value.trim();
+  const email = document.getElementById('contactEmail').value.trim();
+  const message = document.getElementById('contactMessage').value.trim();
+  if (!name || !email || !message) { Toast.show('Please fill all required fields', 'error'); return; }
+  Toast.show(`Thanks ${name}! Your message has been sent. We'll reply to ${email} within 2 hours. 📧`, 'success', 5000);
+  e.target.reset();
+});
+</script>
+</body>
+</html>
