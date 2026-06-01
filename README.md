@@ -2,6 +2,21 @@
 
 
 A quick-commerce inspired shopping platform featuring intelligent product discovery, wishlist management, dynamic cart operations, coupon handling, delivery workflows, checkout simulation, and order tracking.
+## 🚀 Live Demo
+
+### Explore the Application
+
+🔗 https://srthck.github.io/quickmart-commerce-platform/
+
+### Key Areas to Test
+
+- Product Search & Filtering
+- Wishlist Management
+- Shopping Cart Operations
+- Coupon Application
+- Delivery Selection
+- Order Tracking System
+- Customer Support Center
 
 ## Preview
 
@@ -642,3 +657,5 @@ This workflow was designed to replicate the customer journey found in modern gro
 B.Tech Student | Software Developer
 
 Interested in building scalable software products, commerce platforms, and user-centric digital experiences through practical engineering and continuous learning.
+
+This version is what I would actually put on GitHub. It keeps all the strengths of your project, removes repetition, matches the screenshots, and reads like a professional product repository rather than an internship task.
